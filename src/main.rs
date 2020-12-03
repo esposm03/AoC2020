@@ -30,6 +30,8 @@ fn main() {
     println!("The result is: {}", match day {
         1 => days::day1(&input).unwrap(),
         2 => days::day1_part2(&input).unwrap(),
+        3 => days::day2(&input) as i32,
+        4 => days::day2_part2(&input) as i32,
         _ => panic!("Invalid day provided"),
     });
 }
