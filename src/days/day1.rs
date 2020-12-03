@@ -1,33 +1,36 @@
-pub fn day1(input: &str) -> Option<i32> {
+pub fn day1(input: &str) -> Option<i64> {
     let input_numbers = input
         .lines()
         .map(|s| s.parse().expect("Can't parse a number"))
-        .collect::<Vec<i32>>();
+        .collect::<Vec<i64>>();
 
     for i in 0..input_numbers.len() {
         for j in 0..input_numbers.len() {
-            if i == j { continue; }
+            if i == j {
+                continue;
+            }
 
             if input_numbers[i] + input_numbers[j] == 2020 {
                 return Some(input_numbers[i] * input_numbers[j]);
             }
-            
         }
     }
 
     None
 }
 
-pub fn day1_part2(input: &str) -> Option<i32> {
+pub fn day1_part2(input: &str) -> Option<i64> {
     let input_numbers = input
         .lines()
         .map(|s| s.parse().expect("Can't parse a number"))
-        .collect::<Vec<i32>>();
+        .collect::<Vec<i64>>();
 
     for i in 0..input_numbers.len() {
         for j in 0..input_numbers.len() {
             for k in 0..input_numbers.len() {
-                if i == j || j == k { continue; }
+                if i == j || j == k {
+                    continue;
+                }
 
                 if input_numbers[i] + input_numbers[j] + input_numbers[k] == 2020 {
                     return Some(input_numbers[i] * input_numbers[j] * input_numbers[k]);

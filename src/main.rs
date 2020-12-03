@@ -27,11 +27,16 @@ fn main() {
     let mut input = String::new();
     io::stdin().read_to_string(&mut input).expect("IO error");
 
-    println!("The result is: {}", match day {
-        1 => days::day1(&input).unwrap(),
-        2 => days::day1_part2(&input).unwrap(),
-        3 => days::day2(&input) as i32,
-        4 => days::day2_part2(&input) as i32,
-        _ => panic!("Invalid day provided"),
-    });
+    println!(
+        "The result is: {}",
+        match day {
+            1 => days::day1(&input).unwrap(),
+            2 => days::day1_part2(&input).unwrap(),
+            3 => days::day2(&input),
+            4 => days::day2_part2(&input),
+            5 => days::day3(&input),
+            6 => days::day3_part2(&input),
+            _ => panic!("Invalid day provided"),
+        }
+    );
 }

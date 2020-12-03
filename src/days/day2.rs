@@ -1,24 +1,19 @@
-use std::ops::RangeInclusive;
-use nom::{
-    IResult,
-    bytes::complete as bytes,
-    character::complete as character,
-};
+use nom::{bytes::complete as bytes, character::complete as character, IResult};
 
-pub fn day2(input: &str) -> usize {
+pub fn day2(input: &str) -> i64 {
     input
         .lines()
         .map(|line| Rule::parse(line).expect(&format!("Failed to parse {:?}", line)))
         .filter(|(_, r)| r.is_valid_old())
-        .count()
+        .count() as i64
 }
 
-pub fn day2_part2(input: &str) -> usize {
+pub fn day2_part2(input: &str) -> i64 {
     input
         .lines()
         .map(|line| Rule::parse(line).expect(&format!("Failed to parse {:?}", line)))
         .filter(|(_, r)| r.is_valid_toboggan())
-        .count()
+        .count() as i64
 }
 
 pub struct Rule<'a> {
@@ -41,11 +36,23 @@ impl Rule<'_> {
         let start = start.parse().unwrap();
         let end = end.parse().unwrap();
 
-        Ok((i, Rule { start, end, letter, password }))
+        Ok((
+            i,
+            Rule {
+                start,
+                end,
+                letter,
+                password,
+            },
+        ))
     }
 
     pub fn is_valid_old(&self) -> bool {
-        let count = self.password.chars().filter(|ch| *ch == self.letter).count() as u32;
+        let count = self
+            .password
+            .chars()
+            .filter(|ch| *ch == self.letter)
+            .count() as u32;
         count >= self.start && count <= self.end
     }
 
