@@ -36,6 +36,8 @@ fn main() {
             4 => days::day2_part2(&input),
             5 => days::day3(&input),
             6 => days::day3_part2(&input),
+            7 => days::day4(&input),
+            8 => days::day4_part2(&input),
             _ => panic!("Invalid day provided"),
         }
     );
