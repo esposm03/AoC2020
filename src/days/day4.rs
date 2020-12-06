@@ -56,7 +56,7 @@ pub fn day4_part2(input: &str) -> i64 {
                     }
                     "hgt" => {
                         if val.len() != 2 {
-                            let num = *&val[..val.len() - 2].parse::<u16>().unwrap();
+                            let num = val[..val.len() - 2].parse::<u16>().unwrap();
                             if val.ends_with("cm") && 150 <= num && num <= 193
                                 || val.ends_with("in") && 59 <= num && num <= 76
                             {

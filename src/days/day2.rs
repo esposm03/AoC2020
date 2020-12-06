@@ -3,7 +3,7 @@ use nom::{bytes::complete as bytes, character::complete as character, IResult};
 pub fn day2(input: &str) -> i64 {
     input
         .lines()
-        .map(|line| Rule::parse(line).expect(&format!("Failed to parse {:?}", line)))
+        .map(|line| Rule::parse(line).unwrap())
         .filter(|(_, r)| r.is_valid_old())
         .count() as i64
 }
@@ -11,7 +11,7 @@ pub fn day2(input: &str) -> i64 {
 pub fn day2_part2(input: &str) -> i64 {
     input
         .lines()
-        .map(|line| Rule::parse(line).expect(&format!("Failed to parse {:?}", line)))
+        .map(|line| Rule::parse(line).unwrap())
         .filter(|(_, r)| r.is_valid_toboggan())
         .count() as i64
 }

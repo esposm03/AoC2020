@@ -10,8 +10,8 @@ pub fn day5_part2(input: &str) -> i64 {
     }
     vec.sort_unstable();
 
-    for i in 1..vec.len()-1 {
-        if vec[i] == vec[i-1] + 2 {
+    for i in 1..vec.len() - 1 {
+        if vec[i] == vec[i - 1] + 2 {
             return vec[i] - 1;
         }
     }
@@ -20,8 +20,14 @@ pub fn day5_part2(input: &str) -> i64 {
 }
 
 fn seat(line: &str) -> i64 {
-    let row = line[..7].chars().map(|ch| if ch == 'F' { '0' } else { '1' }).collect::<String>();
-    let col = line[7..].chars().map(|ch| if ch == 'L' { '0' } else { '1' }).collect::<String>();
+    let row = line[..7]
+        .chars()
+        .map(|ch| if ch == 'F' { '0' } else { '1' })
+        .collect::<String>();
+    let col = line[7..]
+        .chars()
+        .map(|ch| if ch == 'L' { '0' } else { '1' })
+        .collect::<String>();
 
     let row = i64::from_str_radix(&row, 2).unwrap();
     let col = i64::from_str_radix(&col, 2).unwrap();
