@@ -20,5 +20,6 @@ pub use day5::day5_part2;
 pub use day6::day6;
 pub use day6::day6_part2;
 pub use day7::day7;
+pub use day7::day7_part2;
 pub use day8::day8;
 pub use day8::day8_part2;
