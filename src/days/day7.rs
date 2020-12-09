@@ -48,7 +48,9 @@ mod parsing {
         bytes::complete as bytes, character::complete as character, combinator, multi, IResult,
     };
 
-    pub fn line(i: &str) -> IResult<&str, (&str, Vec<(i64, &str)>)> {
+    type Bag<'a> = (i64, &'a str);
+
+    pub fn line(i: &str) -> IResult<&str, (&str, Vec<Bag>)> {
         let (i, container) = bag(i)?;
         let (i, _) = bytes::tag(" bags contain ")(i)?;
         let (i, contents) = nom::branch::alt((multi::many1(content), no_content))(i)?;
