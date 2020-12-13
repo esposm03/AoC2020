@@ -14,6 +14,18 @@ pub fn day11(input: &str) -> i64 {
         .sum::<i64>()
 }
 
+pub fn day11_part2(input: &str) -> i64 {
+    let mut map = Map::parse(input);
+    while map != map.simulate(false) {
+        map = map.simulate(false);
+    }
+
+    map.map
+        .iter()
+        .map(|vec| vec.iter().filter(|i| **i == Full).count() as i64)
+        .sum::<i64>()
+}
+
 // When indexing, the first number is the x, the second the y.
 // In other words, we first specify the column, then the row
 // As such, we need an array of columns, which then contain single cells
@@ -36,7 +48,17 @@ impl Map {
         let mut res = 0;
 
         for (dx, dy) in deltas {
-            if part1 && self.get(x as isize + dx, y as isize + dy) == Some(Full) { res += 1 }
+            if part1 {
+                if self.get(x as isize + dx, y as isize + dy) == Some(Full) { res += 1 }
+            } else {
+                let mut i = 1;
+                while let Some(Floor) = self.get(x as isize + (dx*i), y as isize + (dy*i)) {
+                    i += 1;
+                }
+                if let Some(Full) = self.get(x as isize + (dx*i), y as isize + (dy*i)) {
+                    res += 1;
+                }
+            }
         }
 
         res
@@ -52,7 +74,10 @@ impl Map {
                 if self.map[x][y] == Empty && near_full_seats == 0 {
                     res.map[x][y] = Full;
                 }
-                if self.map[x][y] == Full && near_full_seats >= 4 {
+                if part1 && self.map[x][y] == Full && near_full_seats >= 4 {
+                    res.map[x][y] = Empty;
+                }
+                if !part1 && self.map[x][y] == Full && near_full_seats >= 5 {
                     res.map[x][y] = Empty;
                 }
             }
@@ -206,4 +231,37 @@ fn test() {
     assert_eq!(map4.simulate(true), map5);
     assert_eq!(map5.simulate(true), map6);
     assert_eq!(map6.simulate(true), map6);
+
+    let part2_vis1 = Map::parse(".......#.
+        ...#.....
+        .#.......
+        .........
+        ..#L....#
+        ....#....
+        .........
+        #........
+        ...#.....
+    ");
+    assert_eq!(part2_vis1.get(3, 4), Some(Empty));
+    assert_eq!(part2_vis1.count_near_seats(3, 4, false), 8);
+
+    eprintln!("\n\n");
+    let part2_vis2 = Map::parse(".............
+        .L.L.#.#.#.#.
+        .............
+    ");
+    assert_eq!(part2_vis2.count_near_seats(1, 1, false), 0);
+
+    let part2_input1 = "L.LL.LL.LL
+        LLLLLLL.LL
+        L.L.L..L..
+        LLLL.LL.LL
+        L.LL.LL.LL
+        L.LLLLL.LL
+        ..L.L.....
+        LLLLLLLLLL
+        L.LLLLLL.L
+        L.LLLLL.LL
+    ";
+    assert_eq!(day11_part2(part2_input1), 26);
 }

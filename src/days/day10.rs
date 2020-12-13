@@ -3,7 +3,7 @@ use std::collections::HashMap;
 pub fn day10(input: &str) -> i64 {
     let mut input = input
         .lines()
-        .map(|i| i.parse::<i64>().expect(&i.to_string()))
+        .map(|i| i.parse::<i64>().unwrap())
         .collect::<Vec<_>>();
     input.sort_unstable();
 
@@ -29,7 +29,7 @@ pub fn day10_part2(input: &str) -> i64 {
 
     let mut v = input
         .lines()
-        .map(|i| i.parse::<i64>().expect(&i.to_string()))
+        .map(|i| i.parse::<i64>().unwrap())
         .collect::<Vec<_>>();
     v.sort_unstable();
 

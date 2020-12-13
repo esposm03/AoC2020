@@ -34,4 +34,4 @@ pub use day9::day9_part2;
 pub use day10::day10;
 pub use day10::day10_part2;
 pub use day11::day11;
-//pub use day11::day11_part2;
+pub use day11::day11_part2;
