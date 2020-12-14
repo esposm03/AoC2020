@@ -12,23 +12,11 @@ pub fn day12(input: &str) -> i64 {
                 South(n) => y -= n as isize,
                 East(n) => x += n as isize,
                 West(n) => x -= n as isize,
-                Forward(n) => {
-                    match rot {
-                        Rotation::North => y += n as isize,
-                        Rotation::South => y -= n as isize,
-                        Rotation::East => x += n as isize,
-                        Rotation::West => x -= n as isize,
-                    }
-                    /*
-                    dbg!((rot%360).abs());
-                    match (rot%360).abs() {
-                        0 => y += n as isize,
-                        90 => x += n as isize,
-                        180 => y -= n as isize,
-                        270 => x -= n as isize,
-                        _ => unreachable!(),
-                    }
-                    */
+                Forward(n) => match rot {
+                    Rotation::North => y += n as isize,
+                    Rotation::South => y -= n as isize,
+                    Rotation::East => x += n as isize,
+                    Rotation::West => x -= n as isize,
                 }
                 Left(n) => {
                     let mut coord_num = match rot {
@@ -68,10 +56,46 @@ pub fn day12(input: &str) -> i64 {
                 }
             };
 
-            println!("With instruction {:?}, ship moves to ({}, {}, {:?})", elem, x, y, rot);
-
             (x, y, rot)
         });
+
+    (x.abs() + y.abs()) as i64
+}
+
+pub fn day12_part2(input: &str) -> i64 {
+    let mut wp_x = 10;
+    let mut wp_y = 1;
+    let mut x = 0;
+    let mut y = 0;
+
+    for action in input.lines().map(Action::parse) {
+        match action {
+            North(n) => wp_y += n as isize,
+            South(n) => wp_y -= n as isize,
+            East(n) => wp_x += n as isize,
+            West(n) => wp_x -= n as isize,
+            Forward(n) => {
+                x += wp_x*n as isize;
+                y += wp_y*n as isize;
+            }
+            Left(n) => {
+                let num = n/90;
+                for _ in 0..num {
+                    let temp = wp_y;
+                    wp_y = wp_x;
+                    wp_x = -temp;
+                }
+            }
+            Right(n) => {
+                let num = n/90;
+                for _ in 0..num {
+                    let temp = wp_x;
+                    wp_x = wp_y;
+                    wp_y = -temp;
+                }
+            }
+        };
+    }
 
     (x.abs() + y.abs()) as i64
 }
@@ -116,8 +140,5 @@ impl Action {
 fn test() {
     assert_eq!(Action::parse("N32"), North(32));
     assert_eq!(day12("F10\nN3\nF7\nR90\nF11\n"), 25);
-
-    assert_eq!(270 % 360, 270);
-    assert_eq!(450 % 360, 90);
-    assert_eq!(-90 % 360, -90);
+    assert_eq!(day12_part2("F10\nN3\nF7\nR90\nF11\n"), 286);
 }
